@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Administración | Pink & Blue Fashion</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700;800;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/styles.css">
+    <style>
+        body { min-height: 100vh; }
+        .admin-page { max-width: 1200px; margin: 0 auto; padding: 2rem 5%; }
+        .admin-topbar {
+            display:flex; justify-content:space-between; align-items:center; gap:1rem;
+            margin-bottom:1.5rem; flex-wrap:wrap;
+        }
+        .admin-back {
+            text-decoration:none; color:var(--text-dark); background:white;
+            border:1px solid #e1e8ed; padding:.65rem 1rem; border-radius:var(--radius-lg);
+        }
+        .admin-login {
+            max-width:420px; margin:7vh auto; background:white; padding:2rem;
+            border-radius:var(--radius-md); box-shadow:var(--shadow-lg);
+        }
+        .admin-login h1 { margin-bottom:.5rem; }
+        .admin-login p { color:var(--text-muted); margin-bottom:1.5rem; }
+        .admin-login input {
+            width:100%; padding:.85rem 1rem; border:1px solid #ccc;
+            border-radius:8px; margin-bottom:1rem;
+        }
+        .admin-login button, .logout-btn {
+            border:0; cursor:pointer; color:white; font-weight:700;
+            padding:.85rem 1rem; border-radius:8px;
+            background:linear-gradient(45deg,var(--pink-primary),var(--blue-primary));
+        }
+        .admin-dashboard { display:none; }
+        .admin-dashboard.active { display:block; }
+        .admin-login.hidden { display:none; }
+        .admin-message { min-height:1.4rem; color:var(--pink-dark); font-size:.9rem; margin-top:.5rem; }
+        .admin-card {
+            background:white; border-radius:var(--radius-md); padding:1.5rem;
+            box-shadow:var(--shadow-sm); margin-bottom:1.5rem;
+        }
+        .admin-table { background:white; }
+    </style>
+</head>
+<body>
+<header>
+    <nav class="navbar">
+        <a href="index.html" class="brand-logo">
+            <div class="logo-top"><span class="pink">PINK</span><span class="amp">&</span><span class="blue">BLUE</span></div>
+            <div class="logo-sub">FASHION</div>
+            <div class="logo-wave">
+                <svg viewBox="0 0 100 20" fill="none">
+                    <path d="M0 10 Q25 0, 50 10 T100 10" stroke="url(#wave-grad)" stroke-width="4" fill="none" stroke-linecap="round"/>
+                    <defs><linearGradient id="wave-grad" x1="0%" y1="0%" x2="100%" y2="0%">
+                        <stop offset="0%" stop-color="#ff6b8b"/>
+                        <stop offset="100%" stop-color="#4a90e2"/>
+                    </linearGradient></defs>
+                </svg>
+            </div>
+        </a>
+        <a href="index.html" class="admin-back"><i class="fas fa-store"></i> Volver a la tienda</a>
+    </nav>
+</header>
+
+<main class="admin-page">
+    <section class="admin-login" id="admin-login">
+        <h1><i class="fas fa-lock"></i> Administración</h1>
+        <p>Acceso exclusivo para administrar el catálogo de Pink & Blue Fashion.</p>
+        <input type="password" id="admin-password" placeholder="Contraseña" autocomplete="current-password">
+        <button id="login-btn"><i class="fas fa-sign-in-alt"></i> Ingresar</button>
+        <div class="admin-message" id="login-message"></div>
+    </section>
+
+    <section class="admin-dashboard" id="admin-dashboard">
+        <div class="admin-topbar">
+            <div>
+                <h1>Panel de Administración</h1>
+                <p style="color:var(--text-muted);">Gestiona el catálogo sin mezclarlo con la tienda pública.</p>
+            </div>
+            <button class="logout-btn" id="logout-btn"><i class="fas fa-sign-out-alt"></i> Cerrar sesión</button>
+        </div>
+
+        <div class="admin-card">
+            <form class="admin-form" id="add-product-form">
+                <div class="form-group">
+                    <label>Nombre del Producto</label>
+                    <input type="text" id="prod-name" placeholder="Ej: Playera Oversize Pink" required>
+                </div>
+                <div class="form-group">
+                    <label>Categoría</label>
+                    <select id="prod-category" required>
+                        <option value="playeras">Playeras</option>
+                        <option value="pantalones">Pantalones</option>
+                        <option value="shorts">Shorts</option>
+                        <option value="calcetines">Calcetines</option>
+                        <option value="brasieres">Brasieres</option>
+                        <option value="sudaderas">Sudaderas</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Precio (MXN)</label>
+                    <input type="number" id="prod-price" placeholder="Ej: 399" min="0" step="0.01" required>
+                </div>
+                <div class="form-group">
+                    <label>Etiqueta / Badge</label>
+                    <input type="text" id="prod-badge" placeholder="Ej: Nuevo, Oferta, Popular">
+                </div>
+                <div class="form-group" style="grid-column:1/-1;">
+                    <label>Imagen del Producto</label>
+                    <input type="file" id="prod-image-file" accept="image/*" required>
+                    <small style="color:var(--text-muted);">Selecciona una imagen directamente desde tu equipo.</small>
+                    <div id="image-preview" style="margin-top:10px;"></div>
+                </div>
+                <button type="submit" class="form-btn"><i class="fas fa-plus"></i> Guardar y Agregar Producto</button>
+            </form>
+        </div>
+
+        <div class="admin-card">
+            <h2>Inventario Actual</h2>
+            <div style="overflow-x:auto;margin-top:10px;">
+                <table class="admin-table">
+                    <thead>
+                        <tr>
+                            <th>Foto</th>
+                            <th>Nombre</th>
+                            <th>Categoría</th>
+                            <th>Precio</th>
+                            <th>Acción</th>
+                        </tr>
+                    </thead>
+                    <tbody id="admin-table-body"></tbody>
+                </table>
+            </div>
+        </div>
+    </section>
+</main>
+
+<script type="module" src="js/admin.js"></script>
+</body>
+</html>
